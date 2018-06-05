@@ -55,10 +55,7 @@ namespace GeneticAlgorithm
         }
 
         private static Func<Tuple<Ind,Ind>> bestParents(Ind[] individuals, double[] fitnesses){
-            var bestMother = individuals[0];
-            var bestFather = individuals[1];
-
-            return () => new Tuple<Ind, Ind>(bestMother, bestFather);
+            return () => Selection.Tournament(individuals, fitnesses);
         }
 
         private static Tuple<Ind,Ind> singlePointCrossover(Tuple<Ind,Ind> parents)
