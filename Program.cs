@@ -37,7 +37,7 @@ namespace GeneticAlgorithm
         private static Ind makeIndividual(){
             var genetics = new List<int>();
             var rnd = new Random();
-            for(var i = 0; i < 16; i++){
+            for(var i = 0; i < 5; i++){
                 genetics.Add(rnd.Next(2));
             }
 
