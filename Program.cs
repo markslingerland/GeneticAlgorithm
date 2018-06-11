@@ -20,17 +20,17 @@ namespace GeneticAlgorithm
 
             Func<Ind> createIndividual = makeIndividual;
             Func<Ind,double> computeFitness = fitnessComputer;
-            // Func<Ind[],double[],Func<Tuple<Ind,Ind>>> selectTwoParents = bestParents;
+            Func<Ind[],double[],Func<Tuple<Ind,Ind>>> selectTwoParents = bestParents;
             Func<Tuple<Ind, Ind>, Tuple<Ind, Ind>> crossover = singlePointCrossover;
             Func<Ind, double, Ind> mutation = modification;
             
             var result = modification(makeIndividual(), 0.2);
 
 
-            GeneticAlgorithm<Ind> fakeProblemGA = new GeneticAlgorithm<Ind>(0.0, 0.0, false, 0, 0); // CHANGE THE GENERIC TYPE (NOW IT'S INT AS AN EXAMPLE) AND THE PARAMETERS VALUES
-            var solution = fakeProblemGA.Run(createIndividual, computeFitness, null, crossover, mutation); 
+            GeneticAlgorithm<Ind> fakeProblemGA = new GeneticAlgorithm<Ind>(0.5, 0.1, false, 10, 5); // CHANGE THE GENERIC TYPE (NOW IT'S INT AS AN EXAMPLE) AND THE PARAMETERS VALUES
+            var solution = fakeProblemGA.Run(createIndividual, computeFitness, selectTwoParents, crossover, mutation); 
             Console.WriteLine("Solution: ");
-            Console.WriteLine(solution);
+            Console.WriteLine(solution.Genetics.Sum());
 
         }
 
@@ -54,10 +54,9 @@ namespace GeneticAlgorithm
             return fitness;
         }
 
-        // private static Func<Tuple<Ind,Ind>> bestParents(Ind[] individuals, double[] fitnesses){
-             
-        //     throw NotImplementedException();
-        // }
+        private static Func<Tuple<Ind,Ind>> bestParents(Ind[] individuals, double[] fitnesses){
+            return () => Selection.Tournament(individuals, fitnesses);
+        }
 
         private static Tuple<Ind,Ind> singlePointCrossover(Tuple<Ind,Ind> parents)
         {
